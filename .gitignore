@@ -27,4 +27,4 @@ api
 *.db
 
 # ---- DOCKER LOCAL (if you ever test locally) ----
-docker-compose.override.yml
+docker-compose.yml
