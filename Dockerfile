@@ -1,11 +1,15 @@
-FROM golang:1.22
+FROM golang:1.22 AS build
 
 WORKDIR /app
-COPY . .
-
+COPY go.mod go.sum ./
 RUN go mod download
+
+COPY . .
 RUN go build -o api ./cmd/api
 
-EXPOSE 8080 50051
+FROM debian:bullseye
+WORKDIR /app
+COPY --from=build /app/api /app/api
 
-CMD ["./api"]
+EXPOSE 8080 50051
+CMD ["/app/api"]
