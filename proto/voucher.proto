@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package voucher;
+option go_package = "github.com/Mizbain-Fathima/remote-care-backend/gen";
+
+service VoucherService {
+  rpc SearchVouchers(SearchVouchersRequest) returns (SearchVouchersResponse) {}
+  rpc BuyVoucher(BuyVoucherRequest) returns (BuyVoucherResponse) {}
+  rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse) {}
+  rpc ListTransactions(ListTransactionsRequest) returns (ListTransactionsResponse) {}
+}
+
+message SearchVouchersRequest {
+  string query = 1;
+  string category = 2; // HOME_OFFICE or SKINCARE
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message Voucher {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string category = 4;
+  string brand = 5;
+  double discount_percent = 6;
+  double price = 7;
+  string currency = 8;
+  bool active = 9;
+}
+
+message SearchVouchersResponse {
+  repeated Voucher vouchers = 1;
+  int32 total = 2;
+}
+
+message BuyVoucherRequest {
+  string user_id = 1;
+  string voucher_id = 2;
+  string payment_method = 3; // MOCK_UPI
+  string upi_id = 4;
+  string request_id = 5;     // idempotency
+}
+
+message BuyVoucherResponse {
+  string transaction_id = 1;
+  string status = 2; // SUCCESS / FAILED
+}
+
+message GetBalanceRequest {
+  string user_id = 1;
+}
+
+message GetBalanceResponse {
+  string user_id = 1;
+  double balance = 2;
+  string currency = 3;
+}
+
+message ListTransactionsRequest {
+  string user_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message Transaction {
+  string id = 1;
+  string user_id = 2;
+  string voucher_id = 3;
+  double amount = 4;
+  string currency = 5;
+  string status = 6;
+  string created_at = 7;
+}
+
+message ListTransactionsResponse {
+  repeated Transaction transactions = 1;
+  int32 total = 2;
+}

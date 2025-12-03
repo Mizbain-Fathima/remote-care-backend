@@ -1,0 +1,30 @@
+# ---- GO BUILD OUTPUT ----
+/bin/
+/dist/
+/build/
+/out/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+api
+
+# ---- GO TEMP FILES ----
+*.log
+*.tmp
+*.temp
+*.cache
+
+# ---- ENV & SECRETS ----
+.env
+.prof
+
+# ---- LOCAL DATABASE / DATA ----
+*.sqlite
+*.db
+
+# ---- DOCKER LOCAL (if you ever test locally) ----
+docker-compose.override.yml
