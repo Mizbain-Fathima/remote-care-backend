@@ -1,49 +1,51 @@
 package transport
 
 import (
-	"context"
-	"net"
-
-	pb "github.com/Mizbain-Fathima/remote-care-backend/gen"
-	"github.com/Mizbain-Fathima/remote-care-backend/internal/service"
+	pb "github.com/Mizbain-Fathima/remote-care-backend/gen/github.com/Mizbain-Fathima/remote-care-backend/gen"
+	"github.com/Mizbain-Fathima/remote-care-backend/internal/interceptors"
 
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
-type GRPCServer struct {
-	server *grpc.Server
-}
+func NewGRPCServer(voucherSvc pb.VoucherServiceServer, logger *zap.Logger) *grpc.Server {
 
-func NewGRPCServer(svc *service.VoucherService, logger *zap.Logger) *GRPCServer {
-
-	unaryInterceptor := func(
-		ctx context.Context,
-		req interface{},
-		info *grpc.UnaryServerInfo,
-		handler grpc.UnaryHandler,
-	) (interface{}, error) {
-		md, _ := metadata.FromIncomingContext(ctx)
-		logger.Info("grpc request", zap.String("method", info.FullMethod), zap.Any("md", md))
-		return handler(ctx, req)
+	skipAuth := map[string]bool{
+		"/voucher.VoucherService/SearchVouchers":   true,
+		"/voucher.VoucherService/GetBalance":       true,
+		"/voucher.VoucherService/ListTransactions": true,
 	}
 
-	server := grpc.NewServer(
-		grpc.UnaryInterceptor(unaryInterceptor),        // your logger
-		grpc.StatsHandler(otelgrpc.NewServerHandler()), // OpenTelemetry
+	unaryInterceptors := []grpc.UnaryServerInterceptor{
+		interceptors.UnaryTimeoutInterceptor(interceptors.DefaultUnaryTimeout),
+		interceptors.UnaryLoggingInterceptor(logger),
+		interceptors.SimpleAuthInterceptor(logger, skipAuth),
+
+		// OpenTelemetry interceptor
+		otelgrpc.UnaryServerInterceptor(),
+	}
+
+	streamInterceptors := []grpc.StreamServerInterceptor{
+		interceptors.StreamTimeoutInterceptor(interceptors.DefaultUnaryTimeout),
+		otelgrpc.StreamServerInterceptor(),
+	}
+
+	opts := []grpc.ServerOption{
+		grpc.ChainUnaryInterceptor(unaryInterceptors...),
+		grpc.ChainStreamInterceptor(streamInterceptors...),
+	}
+
+	srv := grpc.NewServer(opts...)
+	pb.RegisterVoucherServiceServer(srv, voucherSvc)
+
+	return srv
+}
+
+func DialGRPCLocal() (*grpc.ClientConn, error) {
+	return grpc.Dial(
+		"localhost:50051",
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
-
-	pb.RegisterVoucherServiceServer(server, svc)
-
-	return &GRPCServer{server: server}
-}
-
-func (g *GRPCServer) Serve(lis net.Listener) error {
-	return g.server.Serve(lis)
-}
-
-func (g *GRPCServer) GracefulStop() {
-	g.server.GracefulStop()
 }

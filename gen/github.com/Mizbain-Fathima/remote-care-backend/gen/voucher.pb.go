@@ -4,15 +4,15 @@
 // 	protoc        v6.33.1
 // source: voucher.proto
 
-package voucher
+package gen
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -25,7 +25,7 @@ const (
 type SearchVouchersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Query         string                 `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
-	Category      string                 `protobuf:"bytes,2,opt,name=category,proto3" json:"category,omitempty"` // HOME_OFFICE or SKINCARE
+	Category      string                 `protobuf:"bytes,2,opt,name=category,proto3" json:"category,omitempty"`
 	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
 	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -254,9 +254,9 @@ type BuyVoucherRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	VoucherId     string                 `protobuf:"bytes,2,opt,name=voucher_id,json=voucherId,proto3" json:"voucher_id,omitempty"`
-	PaymentMethod string                 `protobuf:"bytes,3,opt,name=payment_method,json=paymentMethod,proto3" json:"payment_method,omitempty"` // MOCK_UPI
+	PaymentMethod string                 `protobuf:"bytes,3,opt,name=payment_method,json=paymentMethod,proto3" json:"payment_method,omitempty"`
 	UpiId         string                 `protobuf:"bytes,4,opt,name=upi_id,json=upiId,proto3" json:"upi_id,omitempty"`
-	RequestId     string                 `protobuf:"bytes,5,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"` // idempotency
+	RequestId     string                 `protobuf:"bytes,5,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -329,7 +329,7 @@ func (x *BuyVoucherRequest) GetRequestId() string {
 type BuyVoucherResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TransactionId string                 `protobuf:"bytes,1,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
-	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"` // SUCCESS / FAILED
+	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -690,7 +690,7 @@ var File_voucher_proto protoreflect.FileDescriptor
 
 const file_voucher_proto_rawDesc = "" +
 	"\n" +
-	"\rvoucher.proto\x12\avoucher\"z\n" +
+	"\rvoucher.proto\x12\avoucher\x1a\x1cgoogle/api/annotations.proto\"z\n" +
 	"\x15SearchVouchersRequest\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12\x1a\n" +
 	"\bcategory\x18\x02 \x01(\tR\bcategory\x12\x12\n" +
@@ -742,14 +742,14 @@ const file_voucher_proto_rawDesc = "" +
 	"created_at\x18\a \x01(\tR\tcreatedAt\"j\n" +
 	"\x18ListTransactionsResponse\x128\n" +
 	"\ftransactions\x18\x01 \x03(\v2\x14.voucher.TransactionR\ftransactions\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x05R\x05total2\xd2\x02\n" +
-	"\x0eVoucherService\x12S\n" +
-	"\x0eSearchVouchers\x12\x1e.voucher.SearchVouchersRequest\x1a\x1f.voucher.SearchVouchersResponse\"\x00\x12G\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total2\xb7\x03\n" +
+	"\x0eVoucherService\x12m\n" +
+	"\x0eSearchVouchers\x12\x1e.voucher.SearchVouchersRequest\x1a\x1f.voucher.SearchVouchersResponse\"\x1a\x82\xd3\xe4\x93\x02\x14\x12\x12/v1/searchvouchers\x12`\n" +
 	"\n" +
-	"BuyVoucher\x12\x1a.voucher.BuyVoucherRequest\x1a\x1b.voucher.BuyVoucherResponse\"\x00\x12G\n" +
+	"BuyVoucher\x12\x1a.voucher.BuyVoucherRequest\x1a\x1b.voucher.BuyVoucherResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/v1/buyvoucher\x12]\n" +
 	"\n" +
-	"GetBalance\x12\x1a.voucher.GetBalanceRequest\x1a\x1b.voucher.GetBalanceResponse\"\x00\x12Y\n" +
-	"\x10ListTransactions\x12 .voucher.ListTransactionsRequest\x1a!.voucher.ListTransactionsResponse\"\x00B;Z9github.com/Mizbain-Fathima/remote-care-backend/genb\x06proto3"
+	"GetBalance\x12\x1a.voucher.GetBalanceRequest\x1a\x1b.voucher.GetBalanceResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/v1/getbalance\x12u\n" +
+	"\x10ListTransactions\x12 .voucher.ListTransactionsRequest\x1a!.voucher.ListTransactionsResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/v1/listtransactionsB8Z6github.com/Mizbain-Fathima/remote-care-backend/gen;genb\x06proto3"
 
 var (
 	file_voucher_proto_rawDescOnce sync.Once

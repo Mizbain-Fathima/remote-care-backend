@@ -2,28 +2,48 @@ package observability
 
 import (
 	"context"
+	"os"
 
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.21.0"
 )
 
-func InitTracer(serviceName string) (*sdktrace.TracerProvider, error) {
-	res, err := resource.New(
-		context.Background(),
-		resource.WithAttributes(
-			semconv.ServiceNameKey.String(serviceName),
-		),
+func InitOTEL(serviceName string) (*sdktrace.TracerProvider, error) {
+	ctx := context.Background()
+
+	endpoint := os.Getenv("OTEL_COLLECTOR_URL")
+	if endpoint == "" {
+		endpoint = "localhost:4318"
+	}
+
+	// Modern OTEL Exporter Setup — NO client
+	exp, err := otlptracehttp.New(
+		ctx,
+		otlptracehttp.WithEndpoint(endpoint),
+		otlptracehttp.WithURLPath("/v1/traces"),
+		otlptracehttp.WithInsecure(),
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	tp := sdktrace.NewTracerProvider(
-		sdktrace.WithResource(res),
-		// you can add OTLP exporter here to Jaeger
+	res, _ := resource.Merge(
+		resource.Default(),
+		resource.NewWithAttributes(
+			semconv.SchemaURL,
+			semconv.ServiceNameKey.String(serviceName),
+		),
 	)
+
+	tp := sdktrace.NewTracerProvider(
+		sdktrace.WithBatcher(exp),
+		sdktrace.WithResource(res),
+	)
+
 	otel.SetTracerProvider(tp)
+
 	return tp, nil
 }

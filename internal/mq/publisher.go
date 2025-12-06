@@ -7,9 +7,9 @@ import (
 )
 
 type Publisher struct {
-	conn *amqp.Connection
-	ch   *amqp.Channel
-	exch string
+	conn     *amqp.Connection
+	channel  *amqp.Channel
+	exchange string
 }
 
 func NewPublisher(url, exchange string) (*Publisher, error) {
@@ -17,27 +17,37 @@ func NewPublisher(url, exchange string) (*Publisher, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	ch, err := conn.Channel()
 	if err != nil {
 		return nil, err
 	}
-	if err := ch.ExchangeDeclare(
+
+	// Declare topic exchange
+	err = ch.ExchangeDeclare(
 		exchange,
 		"topic",
-		true,
-		false,
+		true,  // durable
+		false, // auto-delete
 		false,
 		false,
 		nil,
-	); err != nil {
+	)
+	if err != nil {
 		return nil, err
 	}
-	return &Publisher{conn: conn, ch: ch, exch: exchange}, nil
+
+	return &Publisher{
+		conn:     conn,
+		channel:  ch,
+		exchange: exchange,
+	}, nil
 }
 
 func (p *Publisher) PublishPurchase(ctx context.Context, routingKey string, body []byte) error {
-	return p.ch.PublishWithContext(ctx,
-		p.exch,
+	return p.channel.PublishWithContext(
+		ctx,
+		p.exchange,
 		routingKey,
 		false,
 		false,
@@ -49,6 +59,6 @@ func (p *Publisher) PublishPurchase(ctx context.Context, routingKey string, body
 }
 
 func (p *Publisher) Close() {
-	p.ch.Close()
+	p.channel.Close()
 	p.conn.Close()
 }

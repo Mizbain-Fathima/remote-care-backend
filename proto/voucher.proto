@@ -1,18 +1,40 @@
 syntax = "proto3";
 
 package voucher;
-option go_package = "github.com/Mizbain-Fathima/remote-care-backend/gen";
+option go_package = "github.com/Mizbain-Fathima/remote-care-backend/gen;gen";
+
+import "google/api/annotations.proto";
 
 service VoucherService {
-  rpc SearchVouchers(SearchVouchersRequest) returns (SearchVouchersResponse) {}
-  rpc BuyVoucher(BuyVoucherRequest) returns (BuyVoucherResponse) {}
-  rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse) {}
-  rpc ListTransactions(ListTransactionsRequest) returns (ListTransactionsResponse) {}
+  rpc SearchVouchers(SearchVouchersRequest) returns (SearchVouchersResponse) {
+    option (google.api.http) = {
+      get: "/v1/searchvouchers"
+    };
+  }
+
+  rpc BuyVoucher(BuyVoucherRequest) returns (BuyVoucherResponse) {
+    option (google.api.http) = {
+      post: "/v1/buyvoucher"
+      body: "*"
+    };
+  }
+
+  rpc GetBalance(GetBalanceRequest) returns (GetBalanceResponse) {
+    option (google.api.http) = {
+      get: "/v1/getbalance"
+    };
+  }
+
+  rpc ListTransactions(ListTransactionsRequest) returns (ListTransactionsResponse) {
+    option (google.api.http) = {
+      get: "/v1/listtransactions"
+    };
+  }
 }
 
 message SearchVouchersRequest {
   string query = 1;
-  string category = 2; // HOME_OFFICE or SKINCARE
+  string category = 2; 
   int32 page = 3;
   int32 page_size = 4;
 }
@@ -37,14 +59,14 @@ message SearchVouchersResponse {
 message BuyVoucherRequest {
   string user_id = 1;
   string voucher_id = 2;
-  string payment_method = 3; // MOCK_UPI
+  string payment_method = 3;
   string upi_id = 4;
-  string request_id = 5;     // idempotency
+  string request_id = 5;
 }
 
 message BuyVoucherResponse {
   string transaction_id = 1;
-  string status = 2; // SUCCESS / FAILED
+  string status = 2;
 }
 
 message GetBalanceRequest {

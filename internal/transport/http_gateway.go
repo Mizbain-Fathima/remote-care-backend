@@ -4,7 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	pb "github.com/Mizbain-Fathima/remote-care-backend/gen"
+	pb "github.com/Mizbain-Fathima/remote-care-backend/gen/github.com/Mizbain-Fathima/remote-care-backend/gen"
+
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
 )

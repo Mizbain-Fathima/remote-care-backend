@@ -4,7 +4,7 @@
 // - protoc             v6.33.1
 // source: voucher.proto
 
-package voucher
+package gen
 
 import (
 	context "context"

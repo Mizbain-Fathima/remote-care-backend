@@ -2,11 +2,11 @@
 // source: voucher.proto
 
 /*
-Package voucher is a reverse proxy.
+Package gen is a reverse proxy.
 
 It translates gRPC into RESTful JSON APIs.
 */
-package voucher
+package gen
 
 import (
 	"context"
@@ -35,16 +35,21 @@ var (
 	_ = metadata.Join
 )
 
+var filter_VoucherService_SearchVouchers_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
 func request_VoucherService_SearchVouchers_0(ctx context.Context, marshaler runtime.Marshaler, client VoucherServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq SearchVouchersRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VoucherService_SearchVouchers_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.SearchVouchers(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -55,7 +60,10 @@ func local_request_VoucherService_SearchVouchers_0(ctx context.Context, marshale
 		protoReq SearchVouchersRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VoucherService_SearchVouchers_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.SearchVouchers(ctx, &protoReq)
@@ -89,16 +97,21 @@ func local_request_VoucherService_BuyVoucher_0(ctx context.Context, marshaler ru
 	return msg, metadata, err
 }
 
+var filter_VoucherService_GetBalance_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
 func request_VoucherService_GetBalance_0(ctx context.Context, marshaler runtime.Marshaler, client VoucherServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq GetBalanceRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VoucherService_GetBalance_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.GetBalance(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -109,23 +122,31 @@ func local_request_VoucherService_GetBalance_0(ctx context.Context, marshaler ru
 		protoReq GetBalanceRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VoucherService_GetBalance_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.GetBalance(ctx, &protoReq)
 	return msg, metadata, err
 }
 
+var filter_VoucherService_ListTransactions_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+
 func request_VoucherService_ListTransactions_0(ctx context.Context, marshaler runtime.Marshaler, client VoucherServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq ListTransactionsRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VoucherService_ListTransactions_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.ListTransactions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -136,7 +157,10 @@ func local_request_VoucherService_ListTransactions_0(ctx context.Context, marsha
 		protoReq ListTransactionsRequest
 		metadata runtime.ServerMetadata
 	)
-	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_VoucherService_ListTransactions_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.ListTransactions(ctx, &protoReq)
@@ -149,13 +173,13 @@ func local_request_VoucherService_ListTransactions_0(ctx context.Context, marsha
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterVoucherServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterVoucherServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server VoucherServiceServer) error {
-	mux.Handle(http.MethodPost, pattern_VoucherService_SearchVouchers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoucherService_SearchVouchers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/voucher.VoucherService/SearchVouchers", runtime.WithHTTPPathPattern("/voucher.VoucherService/SearchVouchers"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/voucher.VoucherService/SearchVouchers", runtime.WithHTTPPathPattern("/v1/searchvouchers"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -175,7 +199,7 @@ func RegisterVoucherServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/voucher.VoucherService/BuyVoucher", runtime.WithHTTPPathPattern("/voucher.VoucherService/BuyVoucher"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/voucher.VoucherService/BuyVoucher", runtime.WithHTTPPathPattern("/v1/buyvoucher"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -189,13 +213,13 @@ func RegisterVoucherServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		}
 		forward_VoucherService_BuyVoucher_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_VoucherService_GetBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoucherService_GetBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/voucher.VoucherService/GetBalance", runtime.WithHTTPPathPattern("/voucher.VoucherService/GetBalance"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/voucher.VoucherService/GetBalance", runtime.WithHTTPPathPattern("/v1/getbalance"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -209,13 +233,13 @@ func RegisterVoucherServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		}
 		forward_VoucherService_GetBalance_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_VoucherService_ListTransactions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoucherService_ListTransactions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/voucher.VoucherService/ListTransactions", runtime.WithHTTPPathPattern("/voucher.VoucherService/ListTransactions"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/voucher.VoucherService/ListTransactions", runtime.WithHTTPPathPattern("/v1/listtransactions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -269,11 +293,11 @@ func RegisterVoucherServiceHandler(ctx context.Context, mux *runtime.ServeMux, c
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "VoucherServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterVoucherServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client VoucherServiceClient) error {
-	mux.Handle(http.MethodPost, pattern_VoucherService_SearchVouchers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoucherService_SearchVouchers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/voucher.VoucherService/SearchVouchers", runtime.WithHTTPPathPattern("/voucher.VoucherService/SearchVouchers"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/voucher.VoucherService/SearchVouchers", runtime.WithHTTPPathPattern("/v1/searchvouchers"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -290,7 +314,7 @@ func RegisterVoucherServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/voucher.VoucherService/BuyVoucher", runtime.WithHTTPPathPattern("/voucher.VoucherService/BuyVoucher"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/voucher.VoucherService/BuyVoucher", runtime.WithHTTPPathPattern("/v1/buyvoucher"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -303,11 +327,11 @@ func RegisterVoucherServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		}
 		forward_VoucherService_BuyVoucher_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_VoucherService_GetBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoucherService_GetBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/voucher.VoucherService/GetBalance", runtime.WithHTTPPathPattern("/voucher.VoucherService/GetBalance"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/voucher.VoucherService/GetBalance", runtime.WithHTTPPathPattern("/v1/getbalance"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -320,11 +344,11 @@ func RegisterVoucherServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 		}
 		forward_VoucherService_GetBalance_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_VoucherService_ListTransactions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodGet, pattern_VoucherService_ListTransactions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/voucher.VoucherService/ListTransactions", runtime.WithHTTPPathPattern("/voucher.VoucherService/ListTransactions"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/voucher.VoucherService/ListTransactions", runtime.WithHTTPPathPattern("/v1/listtransactions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -341,10 +365,10 @@ func RegisterVoucherServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 }
 
 var (
-	pattern_VoucherService_SearchVouchers_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"voucher.VoucherService", "SearchVouchers"}, ""))
-	pattern_VoucherService_BuyVoucher_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"voucher.VoucherService", "BuyVoucher"}, ""))
-	pattern_VoucherService_GetBalance_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"voucher.VoucherService", "GetBalance"}, ""))
-	pattern_VoucherService_ListTransactions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"voucher.VoucherService", "ListTransactions"}, ""))
+	pattern_VoucherService_SearchVouchers_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "searchvouchers"}, ""))
+	pattern_VoucherService_BuyVoucher_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "buyvoucher"}, ""))
+	pattern_VoucherService_GetBalance_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "getbalance"}, ""))
+	pattern_VoucherService_ListTransactions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "listtransactions"}, ""))
 )
 
 var (
